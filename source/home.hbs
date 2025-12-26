@@ -1,0 +1,161 @@
+{{!< default}}
+{{!-- 12 Days of Shipmas Homepage --}}
+
+{{> "components/header" headerStyle="Off"}}
+
+{{!-- Intro Section - Two column: intro left, subscribe right --}}
+<section class="shipmas-intro gh-outer">
+    <div class="gh-inner shipmas-intro-wrapper">
+        {{!-- Left column: Intro content --}}
+        <div class="shipmas-intro-left">
+            {{#get "posts" filter="tag:shipmas-intro" limit="1" include="authors"}}
+                {{#foreach posts}}
+                    <article class="shipmas-intro-card">
+                        <h1 class="shipmas-intro-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h1>
+                        {{#if custom_excerpt}}
+                            <p class="shipmas-intro-excerpt">{{custom_excerpt}}</p>
+                        {{else}}
+                            <p class="shipmas-intro-excerpt">{{excerpt words="40"}}</p>
+                        {{/if}}
+                        <a href="{{url}}" class="shipmas-read-link">Read the full intro &rarr;</a>
+                    </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+
+        {{!-- Right column: Subscribe --}}
+        <div class="shipmas-intro-right">
+            <div class="shipmas-subscribe-box">
+                <h3 class="shipmas-subscribe-title">Stay Updated</h3>
+                <p class="shipmas-subscribe-text">Get notified when we ship each day</p>
+                {{> "email-subscription" email_field_id="shipmas-subscribe"}}
+            </div>
+        </div>
+    </div>
+</section>
+
+{{!-- 12 Days of Shipmas Grid --}}
+<section class="shipmas-grid-section gh-outer">
+    <div class="gh-inner">
+        <p class="shipmas-section-subtitle">December 26 - January 5 | One new product every day</p>
+
+        <div class="shipmas-grid">
+            {{!-- Get all 12 days posts --}}
+            {{#get "posts" filter="tag:12-days-of-shipmas" limit="12" include="authors,tags" order="published_at asc"}}
+                {{#foreach posts}}
+                    <a href="{{url}}" class="shipmas-card revealed" data-day="{{@number}}">
+                        <div class="shipmas-card-inner">
+                            <span class="shipmas-day-number">Day {{@number}}</span>
+                            {{#if feature_image}}
+                                <div class="shipmas-card-image" style="background-image: url('{{feature_image}}')"></div>
+                            {{else}}
+                                <div class="shipmas-card-image shipmas-card-placeholder"></div>
+                            {{/if}}
+                            <div class="shipmas-card-content">
+                                <h3 class="shipmas-card-title">{{title}}</h3>
+                                {{#if custom_excerpt}}
+                                    <p class="shipmas-card-excerpt">{{custom_excerpt}}</p>
+                                {{else}}
+                                    <p class="shipmas-card-excerpt">{{excerpt words="8"}}</p>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </a>
+                {{/foreach}}
+            {{/get}}
+        </div>
+    </div>
+</section>
+
+{{!-- Regular Posts Feed (excluding shipmas posts) --}}
+<section class="gh-container is-list gh-outer other-posts-section">
+    <div class="gh-container-inner gh-inner">
+        <h2 class="gh-container-title">Posts</h2>
+        <main class="gh-main">
+            <div class="gh-feed">
+                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro" include="authors" limit="12"}}
+                    {{#foreach posts}}
+                        {{> "post-card" lazyLoad=true}}
+                    {{/foreach}}
+                {{/get}}
+            </div>
+        </main>
+    </div>
+</section>
+
+{{!-- JavaScript to fill in locked days --}}
+<script>
+(function() {
+    const grid = document.querySelector('.shipmas-grid');
+    if (!grid) return;
+
+    const existingCards = grid.querySelectorAll('.shipmas-card');
+    const existingDays = new Set();
+    existingCards.forEach(card => {
+        const day = parseInt(card.dataset.day);
+        if (day) existingDays.add(day);
+    });
+
+    // Create locked cards for missing days
+    const allCards = [];
+
+    for (let day = 1; day <= 12; day++) {
+        if (!existingDays.has(day)) {
+            const card = document.createElement('div');
+            card.className = 'shipmas-card locked';
+            card.dataset.day = day;
+            card.innerHTML = `
+                <div class="shipmas-card-inner">
+                    <span class="shipmas-day-number">Day ${day}</span>
+                    <div class="shipmas-card-image shipmas-card-locked">
+                        <svg class="shipmas-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <div class="shipmas-card-content">
+                        <h3 class="shipmas-card-title">Coming Soon</h3>
+                        <p class="shipmas-card-excerpt">Check back on day ${day}</p>
+                    </div>
+                </div>
+            `;
+            allCards.push({ day, card, existing: false });
+        }
+    }
+
+    // Collect existing cards with their days
+    existingCards.forEach(card => {
+        const day = parseInt(card.dataset.day);
+        allCards.push({ day, card, existing: true });
+    });
+
+    // Sort by day number
+    allCards.sort((a, b) => a.day - b.day);
+
+    // Clear and re-add in order
+    grid.innerHTML = '';
+    allCards.forEach(({ card }) => grid.appendChild(card));
+})();
+</script>
+
+{{!-- Theme Toggle Script (button in footer) --}}
+<script>
+(function() {
+    // Check for saved preference or system preference
+    const savedTheme = localStorage.getItem('shipmas-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+        document.body.classList.add('light-mode');
+    }
+
+    // Theme toggle will be handled by footer button
+    window.toggleTheme = function() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('shipmas-theme', isLight ? 'light' : 'dark');
+    };
+})();
+</script>

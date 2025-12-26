@@ -1,0 +1,45 @@
+<footer class="gh-footer{{#match @custom.header_and_footer_color "Accent color"}} has-accent-color{{/match}} gh-outer">
+    <div class="gh-footer-inner gh-inner">
+
+        <div class="gh-footer-bar">
+            <span class="gh-footer-logo is-title">
+                {{#if @site.logo}}
+                    <img src="{{@site.logo}}" alt="{{@site.title}}">
+                {{else}}
+                    {{@site.title}}
+                {{/if}}
+            </span>
+            <nav class="gh-footer-menu">
+                {{navigation type="secondary"}}
+            </nav>
+            <div class="gh-footer-actions">
+                <button class="theme-toggle-footer" onclick="toggleTheme && toggleTheme()" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3zm1-4V2h-2v3h2zm0 17v-3h-2v3h2zM5.99 4.58l-1.41 1.41 2.12 2.12 1.41-1.41-2.12-2.12zm12.03 12.02l-1.41 1.41 2.12 2.12 1.41-1.41-2.12-2.12zM2 13h3v-2H2v2zm17 0h3v-2h-3v2zM5.99 19.41l2.12-2.12-1.41-1.41-2.12 2.12 1.41 1.41zM18.02 7.7l2.12-2.12-1.41-1.41-2.12 2.12 1.41 1.41z"/>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                    </svg>
+                </button>
+                <span class="gh-footer-copyright">
+                    Powered by <a href="https://ghost.org/" target="_blank" rel="noopener">Ghost</a>
+                </span>
+            </div>
+        </div>
+
+        {{#if @site.members_enabled}}
+            {{#unless @member}}
+                <section class="gh-footer-signup">
+                    <h2 class="gh-footer-signup-header is-title">
+                        {{#if @custom.signup_heading}}{{@custom.signup_heading}}{{else}}{{@site.title}}{{/if}}
+                    </h2>
+                    <p class="gh-footer-signup-subhead is-body">
+                        {{#if @custom.signup_subheading}}{{@custom.signup_subheading}}{{else}}{{@site.description}}{{/if}}
+                    </p>
+                    {{> "email-subscription" email_field_id="footer-email"}}
+                </section>
+            {{/unless}}
+        {{/if}}
+
+    </div>
+</footer>

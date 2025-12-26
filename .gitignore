@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Ghost local data
+ghost-local/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Temp files
+Untitled

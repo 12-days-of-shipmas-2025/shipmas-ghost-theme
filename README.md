@@ -68,7 +68,7 @@ Posts will automatically appear in the grid. Unpublished days show as "Coming So
 
 #### 12 Days Page (Dedicated Grid)
 1. Go to **Pages → New Page**
-2. Title: "12 Days of Shipmas" (slug: `12-days`)
+2. Title: "12 Days of Shipmas" (slug: `12-days-of-shipmas`)
 3. Click gear icon → **Template** → Select "12 Days of Shipmas"
 4. Publish
 
@@ -79,13 +79,13 @@ Go to **Settings → Navigation** and add:
 | Label | URL |
 |-------|-----|
 | Blog | `/blog/` |
-| 12 Days | `/12-days/` |
+| 12 Days of Shipmas | `/12-days-of-shipmas/` |
 
 ## Configuration
 
 ### Changing the End Date
 
-The 12 Days section automatically hides after January 31, 2025. To change this:
+The 12 Days section automatically hides after January 31, 2026. To change this:
 
 1. Open `home.hbs`
 2. Find the `SHIPMAS_END_DATE` constant near the bottom
@@ -93,7 +93,7 @@ The 12 Days section automatically hides after January 31, 2025. To change this:
 
 ```javascript
 // Format: new Date(Year, Month (0-indexed), Day, Hour, Minute, Second)
-const SHIPMAS_END_DATE = new Date(2025, 0, 31, 23, 59, 59); // January 31, 2025
+const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59); // January 31, 2026
 ```
 
 **Note:** Months are 0-indexed in JavaScript (January = 0, February = 1, etc.)

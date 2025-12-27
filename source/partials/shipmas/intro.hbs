@@ -1,0 +1,32 @@
+{{!-- Shipmas Intro Section - Welcome text and subscribe box --}}
+<section class="shipmas-intro gh-outer">
+    <div class="gh-inner shipmas-intro-wrapper">
+        {{!-- Welcome content --}}
+        <div class="shipmas-intro-left">
+            {{#get "posts" filter="tag:shipmas-intro" limit="1" include="authors"}}
+                {{#foreach posts}}
+                    <article class="shipmas-intro-card">
+                        <h1 class="shipmas-intro-title">
+                            <a href="{{url}}">{{title}}</a>
+                        </h1>
+                        {{#if custom_excerpt}}
+                            <p class="shipmas-intro-excerpt">{{custom_excerpt}}</p>
+                        {{else}}
+                            <p class="shipmas-intro-excerpt">{{excerpt words="40"}}</p>
+                        {{/if}}
+                        <a href="{{url}}" class="shipmas-read-link">Read the full intro &rarr;</a>
+                    </article>
+                {{/foreach}}
+            {{/get}}
+        </div>
+
+        {{!-- Subscribe box --}}
+        <div class="shipmas-intro-right">
+            <div class="shipmas-subscribe-box">
+                <h3 class="shipmas-subscribe-title">Stay Updated</h3>
+                <p class="shipmas-subscribe-text">Get notified when we ship each day</p>
+                {{> "email-subscription" email_field_id="shipmas-subscribe"}}
+            </div>
+        </div>
+    </div>
+</section>

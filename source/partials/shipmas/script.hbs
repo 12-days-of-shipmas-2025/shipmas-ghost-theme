@@ -1,0 +1,54 @@
+{{!-- JavaScript for locked days grid logic --}}
+<script>
+(function() {
+    const grid = document.querySelector('.shipmas-grid');
+    if (!grid) return;
+
+    const existingCards = grid.querySelectorAll('.shipmas-card');
+    const existingDays = new Set();
+    existingCards.forEach(card => {
+        const day = parseInt(card.dataset.day);
+        if (day) existingDays.add(day);
+    });
+
+    // Create locked cards for missing days
+    const allCards = [];
+
+    for (let day = 1; day <= 12; day++) {
+        if (!existingDays.has(day)) {
+            const card = document.createElement('div');
+            card.className = 'shipmas-card locked';
+            card.dataset.day = day;
+            card.innerHTML = `
+                <div class="shipmas-card-inner">
+                    <span class="shipmas-day-number">Day ${day}</span>
+                    <div class="shipmas-card-image shipmas-card-locked">
+                        <svg class="shipmas-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <div class="shipmas-card-content">
+                        <h3 class="shipmas-card-title">Coming Soon</h3>
+                        <p class="shipmas-card-excerpt">Check back on day ${day}</p>
+                    </div>
+                </div>
+            `;
+            allCards.push({ day, card, existing: false });
+        }
+    }
+
+    // Collect existing cards with their days
+    existingCards.forEach(card => {
+        const day = parseInt(card.dataset.day);
+        allCards.push({ day, card, existing: true });
+    });
+
+    // Sort by day number
+    allCards.sort((a, b) => a.day - b.day);
+
+    // Clear and re-add in order
+    grid.innerHTML = '';
+    allCards.forEach(({ card }) => grid.appendChild(card));
+})();
+</script>

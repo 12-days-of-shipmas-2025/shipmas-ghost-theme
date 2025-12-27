@@ -44,14 +44,13 @@ Modes:
                     {{/foreach}}
                 {{/get}}
             </div>
-            {{!-- All posts mode: full feed with pagination --}}
+            {{!-- All posts mode: server-filtered, no pagination needed --}}
             <div id="posts-all" class="gh-feed" style="display: none;">
-                {{#foreach posts}}
-                    {{> "post-card" lazyLoad=true}}
-                {{/foreach}}
-            </div>
-            <div id="posts-pagination" style="display: none;">
-                {{pagination}}
+                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro+tag:-day-1+tag:-day-2+tag:-day-3+tag:-day-4+tag:-day-5+tag:-day-6+tag:-day-7+tag:-day-8+tag:-day-9+tag:-day-10+tag:-day-11+tag:-day-12" include="authors" limit="all"}}
+                    {{#foreach posts}}
+                        {{> "post-card" lazyLoad=true}}
+                    {{/foreach}}
+                {{/get}}
             </div>
         </main>
     </div>
@@ -66,17 +65,9 @@ Modes:
     const showAll = params.get('all') === 'true';
     const isPastEndDate = now > SHIPMAS_END_DATE;
 
-    // Tags to filter out in "all posts" mode
-    const SHIPMAS_TAGS = [
-        '12-days-of-shipmas', 'shipmas-intro',
-        'day-1', 'day-2', 'day-3', 'day-4', 'day-5', 'day-6',
-        'day-7', 'day-8', 'day-9', 'day-10', 'day-11', 'day-12'
-    ];
-
     const shipmasFeature = document.getElementById('shipmas-feature');
     const postsPreview = document.getElementById('posts-preview');
     const postsAll = document.getElementById('posts-all');
-    const postsPagination = document.getElementById('posts-pagination');
     const postsTitle = document.getElementById('posts-title');
     const seeAllLink = document.getElementById('see-all-link');
 
@@ -84,35 +75,13 @@ Modes:
         // Hide shipmas section
         if (shipmasFeature) shipmasFeature.style.display = 'none';
 
-        // Show all posts with pagination
+        // Show all posts (server-filtered, no pagination)
         if (postsPreview) postsPreview.style.display = 'none';
         if (postsAll) postsAll.style.display = '';
-        if (postsPagination) postsPagination.style.display = '';
-
-        // Filter out shipmas-related posts
-        const postCards = postsAll.querySelectorAll('.gh-card');
-        postCards.forEach(function(card) {
-            const tags = (card.getAttribute('data-tags') || '').split(' ');
-            const isShipmasPost = tags.some(function(tag) {
-                return SHIPMAS_TAGS.indexOf(tag) !== -1;
-            });
-            if (isShipmasPost) {
-                card.style.display = 'none';
-            }
-        });
 
         // Update title and hide "See All" link
         if (postsTitle) postsTitle.textContent = 'All Posts';
         if (seeAllLink) seeAllLink.style.display = 'none';
-
-        // Fix pagination links to preserve ?all=true
-        const paginationLinks = postsPagination.querySelectorAll('a');
-        paginationLinks.forEach(function(link) {
-            const href = link.getAttribute('href');
-            if (href && href.indexOf('?all=true') === -1) {
-                link.setAttribute('href', href + '?all=true');
-            }
-        });
     }
 })();
 </script>

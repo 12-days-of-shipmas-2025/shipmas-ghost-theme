@@ -9,69 +9,101 @@ License: MIT
 Repository: https://github.com/12-days-of-shipmas-2025/shipmas-ghost-theme
 
 This is the custom homepage template featuring:
-- 12 Days countdown grid (auto-hides after SHIPMAS_END_DATE)
+- 12 Days countdown grid (auto-hides after SHIPMAS_END_DATE or with ?all=true)
 - Welcome/intro section with subscribe box
-- Regular posts feed (excluding shipmas content)
+- Regular posts feed with pagination
 
-Required Ghost Admin Setup:
-- Tag "12-days-of-shipmas" for day posts
-- Tag "shipmas-intro" for welcome post
-- See README.md for full setup instructions
+Modes:
+- Default: Shows 12 Days section + posts preview
+- ?all=true: Hides 12 Days, shows all posts with pagination
 
 ================================================================================
 --}}
 
-{{!--
-    SHIPMAS FEATURE TOGGLE
-    The 12 Days of Shipmas sections will automatically hide after the end date.
-    To change the end date, modify SHIPMAS_END_DATE in the script at the bottom of this file.
-    Default: January 31, 2026
---}}
-
 {{> "components/header" headerStyle="Off"}}
 
-{{!-- 12 Days of Shipmas Feature Section (date-controlled) --}}
+{{!-- 12 Days of Shipmas Feature Section (hidden with ?all=true or after end date) --}}
 <div id="shipmas-feature">
     {{> "shipmas/intro"}}
     {{> "shipmas/grid"}}
-</div>{{!-- End #shipmas-feature --}}
+</div>
 
-{{!-- Regular Posts Feed (excluding shipmas posts) --}}
-<section class="gh-container is-list gh-outer other-posts-section">
+{{!-- Posts Section --}}
+<section id="posts-section" class="gh-container is-grid gh-outer other-posts-section">
     <div class="gh-container-inner gh-inner">
         <div class="gh-container-header">
-            <h2 class="gh-container-title">Posts</h2>
-            <a href="{{@site.url}}/blog/" class="gh-see-all-link">See All &rarr;</a>
+            <h2 id="posts-title" class="gh-container-title">Posts</h2>
+            <a id="see-all-link" href="?all=true" class="gh-see-all-link">See All &rarr;</a>
         </div>
         <main class="gh-main">
-            <div class="gh-feed">
-                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro" include="authors" limit="6"}}
+            {{!-- Preview mode: limited posts excluding shipmas --}}
+            <div id="posts-preview" class="gh-feed">
+                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro+tag:-day-1+tag:-day-2+tag:-day-3+tag:-day-4+tag:-day-5+tag:-day-6+tag:-day-7+tag:-day-8+tag:-day-9+tag:-day-10+tag:-day-11+tag:-day-12" include="authors" limit="6"}}
                     {{#foreach posts}}
                         {{> "post-card" lazyLoad=true}}
                     {{/foreach}}
                 {{/get}}
             </div>
+            {{!-- All posts mode: full feed with pagination --}}
+            <div id="posts-all" class="gh-feed" style="display: none;">
+                {{#foreach posts}}
+                    {{> "post-card" lazyLoad=true}}
+                {{/foreach}}
+            </div>
+            <div id="posts-pagination" style="display: none;">
+                {{pagination}}
+            </div>
         </main>
     </div>
 </section>
 
-{{!-- JavaScript for 12 Days of Shipmas --}}
+{{!-- JavaScript for page modes --}}
 <script>
 (function() {
-    // ============================================
-    // SHIPMAS FEATURE TOGGLE - DATE CONFIGURATION
-    // ============================================
-    // Change this date to control when the 12 Days section disappears
-    // Format: Year, Month (0-indexed, so January = 0), Day
-    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59); // January 31, 2026 at 11:59 PM
-
+    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59);
     const now = new Date();
-    const shipmasFeature = document.getElementById('shipmas-feature');
+    const params = new URLSearchParams(window.location.search);
+    const showAll = params.get('all') === 'true';
+    const isPastEndDate = now > SHIPMAS_END_DATE;
 
-    // Hide the 12 Days section if we're past the end date
-    if (now > SHIPMAS_END_DATE && shipmasFeature) {
-        shipmasFeature.style.display = 'none';
-        return; // No need to run the rest of the script
+    // Tags to filter out in "all posts" mode
+    const SHIPMAS_TAGS = [
+        '12-days-of-shipmas', 'shipmas-intro',
+        'day-1', 'day-2', 'day-3', 'day-4', 'day-5', 'day-6',
+        'day-7', 'day-8', 'day-9', 'day-10', 'day-11', 'day-12'
+    ];
+
+    const shipmasFeature = document.getElementById('shipmas-feature');
+    const postsPreview = document.getElementById('posts-preview');
+    const postsAll = document.getElementById('posts-all');
+    const postsPagination = document.getElementById('posts-pagination');
+    const postsTitle = document.getElementById('posts-title');
+    const seeAllLink = document.getElementById('see-all-link');
+
+    if (showAll || isPastEndDate) {
+        // Hide shipmas section
+        if (shipmasFeature) shipmasFeature.style.display = 'none';
+
+        // Show all posts with pagination
+        if (postsPreview) postsPreview.style.display = 'none';
+        if (postsAll) postsAll.style.display = '';
+        if (postsPagination) postsPagination.style.display = '';
+
+        // Filter out shipmas-related posts
+        const postCards = postsAll.querySelectorAll('.gh-card');
+        postCards.forEach(function(card) {
+            const tags = (card.getAttribute('data-tags') || '').split(' ');
+            const isShipmasPost = tags.some(function(tag) {
+                return SHIPMAS_TAGS.indexOf(tag) !== -1;
+            });
+            if (isShipmasPost) {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update title and hide "See All" link
+        if (postsTitle) postsTitle.textContent = 'All Posts';
+        if (seeAllLink) seeAllLink.style.display = 'none';
     }
 })();
 </script>

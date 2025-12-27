@@ -68,10 +68,6 @@
     "config": {
         "posts_per_page": 12,
         "custom_templates": {
-            "custom-blog": {
-                "name": "Blog - All Posts",
-                "for": ["page"]
-            },
             "custom-12-days": {
                 "name": "12 Days of Shipmas",
                 "for": ["page"]

@@ -1,10 +1,31 @@
+/**
+ * ============================================================================
+ * GHOST THEME DEPLOYMENT SCRIPT
+ * ============================================================================
+ *
+ * Uploads and activates the Shipmas theme to a Ghost site via the Admin API.
+ *
+ * USAGE:
+ *   GHOST_ADMIN_API_KEY="id:secret" GHOST_URL="https://yoursite.com" node deploy.js
+ *
+ * PREREQUISITES:
+ *   1. Build the theme first: cd source && npm run zip
+ *   2. Get API key from Ghost Admin → Settings → Integrations → Add custom integration
+ *
+ * The script will:
+ *   1. Upload source/dist/shipmas.zip to the Ghost site
+ *   2. Activate the theme immediately
+ *
+ * ============================================================================
+ */
+
 const crypto = require('crypto');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-// Configuration
-const GHOST_URL = process.env.GHOST_URL || 'https://shipmas.mymagic.page';
+// Configuration - set via environment variables
+const GHOST_URL = process.env.GHOST_URL || 'https://your-ghost-site.com';
 const ADMIN_API_KEY = process.env.GHOST_ADMIN_API_KEY;
 
 if (!ADMIN_API_KEY) {

@@ -1,0 +1,28 @@
+{{!-- Festive Snowflakes Animation --}}
+<div class="snowflakes" id="snowflakes-container"></div>
+
+<script>
+(function() {
+    const container = document.getElementById('snowflakes-container');
+    if (!container) return;
+
+    const snowflakeChars = ['❄', '❅', '❆', '✦', '✧', '*', '⁕', '⁑'];
+    const snowflakeCount = 35;
+
+    function createSnowflake() {
+        const snowflake = document.createElement('span');
+        snowflake.className = 'snowflake style-' + (Math.floor(Math.random() * 4) + 1);
+        snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+        snowflake.style.left = Math.random() * 100 + '%';
+        snowflake.style.animationDuration = (Math.random() * 15 + 10) + 's';
+        snowflake.style.animationDelay = (Math.random() * 10) + 's';
+        snowflake.style.opacity = Math.random() * 0.4 + 0.2;
+        container.appendChild(snowflake);
+    }
+
+    // Create initial snowflakes
+    for (let i = 0; i < snowflakeCount; i++) {
+        createSnowflake();
+    }
+})();
+</script>

@@ -1,11 +1,22 @@
-{{!-- Festive Snowflakes Animation --}}
+{{!-- Festive Snowflakes & Rockets Animation (until Jan 31) --}}
 <div class="snowflakes" id="snowflakes-container"></div>
 
 <script>
 (function() {
+    // Check if effects should be shown
+    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59);
+    const now = new Date();
+    const params = new URLSearchParams(window.location.search);
+    const showAll = params.get('all') === 'true';
+    const isPastEndDate = now > SHIPMAS_END_DATE;
+
+    // Hide effects if past end date or in "all posts" mode
+    if (showAll || isPastEndDate) return;
+
     const container = document.getElementById('snowflakes-container');
     if (!container) return;
 
+    // Snowflakes
     const snowflakeChars = ['❄', '❅', '❆', '✦', '✧', '*', '⁕', '⁑'];
     const snowflakeCount = 40;
 
@@ -17,7 +28,6 @@
 
         const duration = Math.random() * 15 + 12;
         snowflake.style.animationDuration = duration + 's';
-        // Negative delay starts animation mid-way, scattering snowflakes vertically
         snowflake.style.animationDelay = -(Math.random() * duration) + 's';
         snowflake.style.opacity = Math.random() * 0.5 + 0.3;
 
@@ -27,5 +37,28 @@
     for (let i = 0; i < snowflakeCount; i++) {
         createSnowflake();
     }
+
+    // Rockets - shoot across occasionally
+    function launchRocket() {
+        const rocket = document.createElement('span');
+        rocket.className = 'rocket';
+        rocket.textContent = '🚀';
+
+        // Random starting position on left side
+        rocket.style.top = (Math.random() * 60 + 20) + '%';
+
+        container.appendChild(rocket);
+
+        // Remove after animation
+        rocket.addEventListener('animationend', function() {
+            rocket.remove();
+        });
+    }
+
+    // Launch first rocket after 5-15 seconds, then every 20-40 seconds
+    setTimeout(function() {
+        launchRocket();
+        setInterval(launchRocket, Math.random() * 20000 + 20000);
+    }, Math.random() * 10000 + 5000);
 })();
 </script>

@@ -4176,3 +4176,30 @@ body:not(.dark-mode) .theme-toggle .moon-icon {
         display: none;
     }
 }
+
+/* Rocket animation */
+.rocket {
+    position: absolute;
+    left: -50px;
+    font-size: 1.8rem;
+    animation: rocketFly 4s linear forwards;
+    z-index: 10000;
+    filter: drop-shadow(0 0 8px rgba(255, 100, 50, 0.6));
+}
+
+@keyframes rocketFly {
+    0% {
+        transform: translateX(0) translateY(0) rotate(-30deg);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    95% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(calc(100vw + 100px)) translateY(-30vh) rotate(-30deg);
+        opacity: 0;
+    }
+}

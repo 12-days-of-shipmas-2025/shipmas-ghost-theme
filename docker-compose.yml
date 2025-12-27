@@ -7,6 +7,7 @@ services:
     environment:
       url: http://localhost:2368
       NODE_ENV: development
+      database__connection__filename: /var/lib/ghost/content/data/ghost-dev.db
     volumes:
       - ./ghost-local/content:/var/lib/ghost/content
-      - ./source:/var/lib/ghost/content/themes/source
+      - ./source:/var/lib/ghost/content/themes/shipmas

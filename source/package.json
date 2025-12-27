@@ -19,6 +19,7 @@
     },
     "author": {
         "name": "Human Written",
+        "email": "hi@humanwritten.ai",
         "url": "https://humanwritten.ai"
     },
     "gpm": {
@@ -135,14 +136,6 @@
                     "Elegant serif"
                 ],
                 "default": "Modern sans-serif"
-            },
-            "signup_heading": {
-                "type": "text",
-                "description": "Used in your footer across your theme, defaults to site title when empty"
-            },
-            "signup_subheading": {
-                "type": "text",
-                "description": "Defaults to site description when empty"
             },
             "header_style": {
                 "type": "select",

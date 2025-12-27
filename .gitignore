@@ -22,3 +22,10 @@ Thumbs.db
 
 # Temp files
 Untitled
+
+# Generated content (uploaded to Ghost)
+generated-images/
+ghost-import.json
+
+# Split repos (if any)
+repos/

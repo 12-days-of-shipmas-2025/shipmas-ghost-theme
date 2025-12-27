@@ -14,6 +14,16 @@ A Ghost theme featuring a **12 Days of Shipmas** countdown grid with dark mode s
 - **Responsive Design** - Mobile-first, works on all devices
 - **Subscribe Integration** - Built-in email subscription forms
 
+## Try It Free with Magic Pages
+
+Want to run your own 12 Days of Shipmas? **[Magic Pages](https://www.magicpages.co/?ref=humanwritten.ai)** offers a **14-day free trial** for Ghost hosting - enough time to ship all 12 days!
+
+1. Sign up at [magicpages.co](https://www.magicpages.co/?ref=humanwritten.ai) (no credit card required)
+2. Fork this repo and upload the theme
+3. Start shipping!
+
+Magic Pages handles all the Ghost infrastructure so you can focus on building and writing.
+
 ## Installation
 
 1. Download or clone this repository

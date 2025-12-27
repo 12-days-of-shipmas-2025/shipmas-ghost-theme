@@ -23,6 +23,9 @@ Thumbs.db
 # Temp files
 Untitled
 
+# Local development scripts (not for distribution)
+_local-scripts/
+
 # Generated content (uploaded to Ghost)
 generated-images/
 ghost-import.json

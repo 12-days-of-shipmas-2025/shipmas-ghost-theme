@@ -9,7 +9,8 @@ A Ghost theme featuring a **12 Days of Shipmas** countdown grid with dark mode s
 
 - **12 Days Grid** - Beautiful countdown grid for advent-style content series
 - **Dark Mode** - Toggle between dark and light modes (dark by default)
-- **Date-Based Toggle** - 12 Days section automatically hides after a configurable date
+- **Festive Snowflakes** - Gentle falling snowflake animation (auto-hides after Jan 31)
+- **Auto Date Handling** - 12 Days section automatically hides after January 31st each year
 - **Custom Page Templates** - Blog (all posts) and 12 Days dedicated pages
 - **Responsive Design** - Mobile-first, works on all devices
 - **Subscribe Integration** - Built-in email subscription forms
@@ -83,20 +84,25 @@ Go to **Settings → Navigation** and add:
 
 ## Configuration
 
-### Changing the End Date
+### Date Handling (Automatic)
 
-The 12 Days section automatically hides after January 31, 2025. To change this:
+The 12 Days section and snowflakes automatically hide after January 31st each year. **No manual configuration needed** - the end date is auto-calculated:
 
-1. Open `home.hbs`
-2. Find the `SHIPMAS_END_DATE` constant near the bottom
-3. Modify the date:
+- In December: Shows until January 31st of the following year
+- In January: Shows until January 31st of the current year
+- February onwards: Hidden until next December
+
+This logic is in `home.hbs`, `index.hbs`, and `partials/snowflakes.hbs`:
 
 ```javascript
-// Format: new Date(Year, Month (0-indexed), Day, Hour, Minute, Second)
-const SHIPMAS_END_DATE = new Date(2025, 0, 31, 23, 59, 59); // January 31, 2025
+// Auto-calculate: Dec uses next year, otherwise current year
+const shipmasYear = now.getMonth() >= 11 ? now.getFullYear() + 1 : now.getFullYear();
+const SHIPMAS_END_DATE = new Date(shipmasYear, 0, 31, 23, 59, 59);
 ```
 
-**Note:** Months are 0-indexed in JavaScript (January = 0, February = 1, etc.)
+### Manual Override
+
+To hide the 12 Days section early, add `?all=true` to any URL.
 
 ### Feature Image Sizes
 
@@ -119,9 +125,14 @@ source/
 │   └── built/
 │       └── screen.css          # Compiled CSS
 ├── partials/
-│   └── components/
-│       ├── navigation.hbs      # Header with theme toggle
-│       └── footer.hbs          # Footer
+│   ├── components/
+│   │   ├── navigation.hbs      # Header with theme toggle
+│   │   └── footer.hbs          # Footer
+│   ├── shipmas/
+│   │   ├── grid.hbs            # 12 Days card grid
+│   │   ├── intro.hbs           # Welcome section
+│   │   └── script.hbs          # Locked cards JS
+│   └── snowflakes.hbs          # Festive animation
 ├── home.hbs                    # Homepage with 12 Days grid
 ├── custom-blog.hbs             # All posts template
 ├── custom-12-days.hbs          # Dedicated 12 Days template

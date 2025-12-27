@@ -1,9 +1,47 @@
-{{!-- 12 Days of Shipmas Grid --}}
+{{!--
+================================================================================
+SHIPMAS GRID - 12 Days Card Grid
+================================================================================
+
+This partial renders the 12-day countdown grid by fetching posts tagged with
+day-1 through day-12.
+
+WHY 12 SEPARATE {{#get}} BLOCKS?
+--------------------------------
+Ghost's Handlebars {{#get}} helper requires LITERAL filter strings. You cannot
+dynamically interpolate values into the filter parameter:
+
+    DOES NOT WORK:
+    {{#each (range 1 12)}}
+        {{#get "posts" filter="tag:day-{{this}}"}}  <-- Invalid syntax
+    {{/each}}
+
+    ALSO DOES NOT WORK:
+    {{#get "posts" filter=(concat "tag:day-" @index)}}  <-- No concat helper
+
+This is a Ghost platform limitation, not a code quality issue. Each day requires
+its own explicit {{#get}} block with a hardcoded filter string.
+
+REQUIRED TAGS:
+- Each day post needs BOTH tags: "12-days-of-shipmas" AND "day-X" (where X is 1-12)
+- The day-X tag controls grid positioning
+- Missing days show as "Coming Soon" cards (handled by script.hbs)
+
+CARD STRUCTURE:
+- .shipmas-card: Link wrapper with data-day attribute for JS ordering
+- .shipmas-card-inner: Flex container for card content
+- .shipmas-day-number: Day label badge
+- .shipmas-card-image: Feature image or placeholder
+- .shipmas-card-content: Title and excerpt
+
+See also: partials/shipmas/script.hbs (handles locked/coming-soon cards)
+================================================================================
+--}}
 <section class="shipmas-grid-section gh-outer">
     <div class="gh-inner">
 
         <div class="shipmas-grid">
-            {{!-- Fetch each day explicitly by its day-X tag for reliable ordering --}}
+            {{!-- Day 1-12: Each block fetches one post by its day-X tag --}}
             {{#get "posts" filter="tag:day-1" limit="1" include="tags"}}
                 {{#foreach posts}}
                     <a href="{{url}}" class="shipmas-card revealed" data-day="1">

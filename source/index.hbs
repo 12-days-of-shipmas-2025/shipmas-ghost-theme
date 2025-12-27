@@ -271,11 +271,10 @@ Required Ghost Admin Setup:
     // ============================================
     // SHIPMAS FEATURE TOGGLE - DATE CONFIGURATION
     // ============================================
-    // Change this date to control when the 12 Days section disappears
-    // Format: Year, Month (0-indexed, so January = 0), Day
-    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59); // January 31, 2026 at 11:59 PM
-
+    // Auto-calculate shipmas year: Dec = next year's Jan 31, otherwise current year's Jan 31
     const now = new Date();
+    const shipmasYear = now.getMonth() >= 11 ? now.getFullYear() + 1 : now.getFullYear();
+    const SHIPMAS_END_DATE = new Date(shipmasYear, 0, 31, 23, 59, 59);
     const shipmasFeature = document.getElementById('shipmas-feature');
 
     // Hide the 12 Days section if we're past the end date

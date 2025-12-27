@@ -1,11 +1,37 @@
-{{!-- Festive Snowflakes & Rockets Animation (until Jan 31) --}}
+{{!--
+================================================================================
+SNOWFLAKES ANIMATION - Festive falling snowflakes
+================================================================================
+
+Creates a gentle snowfall effect using CSS animations. Automatically hidden:
+- After January 31st (auto-calculated each year)
+- When ?all=true URL parameter is present
+
+CUSTOMIZATION:
+- snowflakeChars: Array of characters used as snowflakes
+- snowflakeCount: Number of snowflakes (default: 40)
+- Colors: Edit .snowflake in screen.css (currently #6bb8d6 icy blue)
+
+The negative animation-delay scatters snowflakes across the viewport on
+page load instead of all starting at the top.
+
+See also: assets/css/screen.css (search for ".snowflakes")
+================================================================================
+--}}
 <div class="snowflakes" id="snowflakes-container"></div>
 
 <script>
 (function() {
-    // Check if effects should be shown
-    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59);
+    // =========================================================================
+    // DATE CONFIGURATION - Auto-calculated, no manual updates needed
+    // =========================================================================
+    // Logic: If December, use next year's Jan 31. Otherwise use current year's.
+    // Example: Dec 2025 -> Jan 31, 2026. Feb 2026 -> Jan 31, 2026 (hidden).
     const now = new Date();
+    const shipmasYear = now.getMonth() >= 11 ? now.getFullYear() + 1 : now.getFullYear();
+    const SHIPMAS_END_DATE = new Date(shipmasYear, 0, 31, 23, 59, 59);
+
+    // Check visibility conditions
     const params = new URLSearchParams(window.location.search);
     const showAll = params.get('all') === 'true';
     const isPastEndDate = now > SHIPMAS_END_DATE;
@@ -16,49 +42,38 @@
     const container = document.getElementById('snowflakes-container');
     if (!container) return;
 
-    // Snowflakes
+    // =========================================================================
+    // SNOWFLAKE CONFIGURATION
+    // =========================================================================
     const snowflakeChars = ['❄', '❅', '❆', '✦', '✧', '*', '⁕', '⁑'];
     const snowflakeCount = 40;
 
+    /**
+     * Creates a single snowflake element with randomized properties
+     * - Random character from snowflakeChars
+     * - Random horizontal position (0-100%)
+     * - Random size via style-1 through style-4 classes
+     * - Random animation duration (12-27 seconds)
+     * - Negative delay to scatter across viewport on load
+     */
     function createSnowflake() {
         const snowflake = document.createElement('span');
         snowflake.className = 'snowflake style-' + (Math.floor(Math.random() * 4) + 1);
         snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
         snowflake.style.left = Math.random() * 100 + '%';
 
-        const duration = Math.random() * 15 + 12;
+        // Randomize fall speed and starting position
+        const duration = Math.random() * 15 + 12;  // 12-27 seconds
         snowflake.style.animationDuration = duration + 's';
-        snowflake.style.animationDelay = -(Math.random() * duration) + 's';
-        snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+        snowflake.style.animationDelay = -(Math.random() * duration) + 's';  // Negative = start mid-animation
+        snowflake.style.opacity = Math.random() * 0.5 + 0.3;  // 0.3-0.8
 
         container.appendChild(snowflake);
     }
 
+    // Create all snowflakes
     for (let i = 0; i < snowflakeCount; i++) {
         createSnowflake();
     }
-
-    // Rockets - shoot across occasionally
-    function launchRocket() {
-        const rocket = document.createElement('span');
-        rocket.className = 'rocket';
-        rocket.textContent = '🚀';
-
-        // Random starting position on left side
-        rocket.style.top = (Math.random() * 60 + 20) + '%';
-
-        container.appendChild(rocket);
-
-        // Remove after animation
-        rocket.addEventListener('animationend', function() {
-            rocket.remove();
-        });
-    }
-
-    // Launch first rocket after 5-15 seconds, then every 20-40 seconds
-    setTimeout(function() {
-        launchRocket();
-        setInterval(launchRocket, Math.random() * 20000 + 20000);
-    }, Math.random() * 10000 + 5000);
 })();
 </script>

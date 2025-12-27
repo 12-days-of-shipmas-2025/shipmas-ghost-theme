@@ -59,8 +59,10 @@ Modes:
 {{!-- JavaScript for page modes --}}
 <script>
 (function() {
-    const SHIPMAS_END_DATE = new Date(2026, 0, 31, 23, 59, 59);
+    // Auto-calculate shipmas year: Dec = next year's Jan 31, otherwise current year's Jan 31
     const now = new Date();
+    const shipmasYear = now.getMonth() >= 11 ? now.getFullYear() + 1 : now.getFullYear();
+    const SHIPMAS_END_DATE = new Date(shipmasYear, 0, 31, 23, 59, 59);
     const params = new URLSearchParams(window.location.search);
     const showAll = params.get('all') === 'true';
     const isPastEndDate = now > SHIPMAS_END_DATE;

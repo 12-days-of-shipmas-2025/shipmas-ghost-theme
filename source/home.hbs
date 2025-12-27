@@ -104,6 +104,15 @@ Modes:
         // Update title and hide "See All" link
         if (postsTitle) postsTitle.textContent = 'All Posts';
         if (seeAllLink) seeAllLink.style.display = 'none';
+
+        // Fix pagination links to preserve ?all=true
+        const paginationLinks = postsPagination.querySelectorAll('a');
+        paginationLinks.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.indexOf('?all=true') === -1) {
+                link.setAttribute('href', href + '?all=true');
+            }
+        });
     }
 })();
 </script>

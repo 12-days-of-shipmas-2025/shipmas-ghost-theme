@@ -27,9 +27,22 @@ Magic Pages handles all the Ghost infrastructure so you can focus on building an
 
 ## Installation
 
-1. Download or clone this repository
-2. Zip the `source` folder (or use `npm run zip`)
-3. Upload to Ghost Admin: **Settings → Design → Change theme → Upload**
+### Option 1: Quick Install (Recommended)
+
+1. Download [`shipmas-theme.zip`](shipmas-theme.zip) from this repo
+2. Go to Ghost Admin → **Settings → Design → Change theme → Upload**
+3. Upload the zip file and activate
+
+### Option 2: Build from Source
+
+```bash
+git clone https://github.com/12-days-of-shipmas-2025/shipmas-ghost-theme.git
+cd shipmas-ghost-theme/source
+npm install
+npm run zip
+```
+
+Then upload `source/dist/shipmas.zip` to Ghost Admin.
 
 ## Ghost Admin Setup
 

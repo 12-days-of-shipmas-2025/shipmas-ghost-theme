@@ -2765,7 +2765,7 @@ figcaption a {
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     column-gap: 32px;
-    margin-bottom: 100px;
+    margin-bottom: 0;
     padding-block: 28px;
     font-weight: 550;
     border-block: 1px solid var(--color-border);
@@ -3337,23 +3337,34 @@ figcaption a {
     background: none;
 }
 
-/* 23. 12 Days of Shipmas
-/* ---------------------------------------------------------- */
+/* ==========================================================================
+   23. 12 Days of Shipmas - Countdown Grid & Cards
 
-/* Shipmas Intro Section */
+   Custom styles for the 12 Days of Shipmas feature:
+   - Intro section with welcome message and subscribe box
+   - 4x3 grid of day cards (responsive: 3 cols tablet, 1 col mobile)
+   - Locked/revealed card states
+   - Feature images with aspect ratio handling
+   ========================================================================== */
+
+/* Shipmas Intro Section - Welcome message area */
 .shipmas-intro {
-    padding: clamp(40px, 5vw, 80px) 0;
+    padding: clamp(24px, 4vw, 48px) 0;
 }
 
 .shipmas-intro-card {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 40px;
-    align-items: center;
-    padding: 32px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.05) 100%);
-    border-radius: 16px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
     border: 1px solid var(--color-border);
+}
+
+.dark-mode .shipmas-intro-card {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body:not(.dark-mode) .shipmas-intro-card {
+    background: rgba(0, 0, 0, 0.02);
 }
 
 .shipmas-intro-image {
@@ -3375,27 +3386,27 @@ figcaption a {
 
 .shipmas-intro-title {
     font-family: var(--font-sans);
-    font-size: clamp(2.4rem, 2vw + 1.6rem, 3.6rem);
+    font-size: clamp(2.2rem, 2vw + 1.4rem, 3.2rem);
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .shipmas-intro-title a {
-    color: var(--color-darker-gray);
+    color: var(--ghost-accent-color);
     text-decoration: none;
 }
 
 .shipmas-intro-title a:hover {
-    color: var(--ghost-accent-color);
+    opacity: 0.85;
 }
 
 .shipmas-intro-excerpt {
-    font-size: 1.7rem;
-    line-height: 1.6;
+    font-size: 1.6rem;
+    line-height: 1.5;
     color: var(--color-secondary-text);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .shipmas-intro-link {
@@ -3480,7 +3491,7 @@ figcaption a {
 .shipmas-day-number {
     position: absolute;
     top: 12px;
-    left: 12px;
+    right: 12px;
     z-index: 10;
     padding: 4px 10px;
     font-size: 1.2rem;
@@ -3498,8 +3509,9 @@ figcaption a {
 
 .shipmas-card-image {
     width: 100%;
-    height: 140px;
-    background-size: cover;
+    aspect-ratio: 16 / 9;
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
     background-color: var(--color-lighter-gray);
 }
@@ -3564,36 +3576,48 @@ figcaption a {
 }
 
 @media (max-width: 767px) {
+    .shipmas-grid-section {
+        padding: clamp(24px, 4vw, 48px) 0;
+    }
+
+    .shipmas-grid-section .gh-inner {
+        padding: 0 16px;
+    }
+
+    .shipmas-intro .gh-inner {
+        padding: 0 16px;
+    }
+
     .shipmas-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         gap: 16px;
     }
 
     .shipmas-intro-card {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .shipmas-card-image {
-        height: 120px;
+        padding: 20px;
     }
 
     .shipmas-card-content {
-        padding: 12px;
+        padding: 14px;
     }
 
     .shipmas-card-title {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
     }
 
     .shipmas-card-excerpt {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
+    }
+
+    /* Theme toggle visible on mobile */
+    .theme-toggle {
+        display: flex;
     }
 }
 
 @media (max-width: 479px) {
     .shipmas-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
     .shipmas-day-number {
@@ -3602,8 +3626,14 @@ figcaption a {
     }
 }
 
-/* 24. Typography Improvements - Clean Modern Style
-/* ---------------------------------------------------------- */
+/* ==========================================================================
+   24. Typography Improvements
+
+   Global typography enhancements for a cleaner, modern look:
+   - Inter font family as default sans-serif
+   - Improved text rendering (antialiasing)
+   - Consistent heading weights and letter-spacing
+   ========================================================================== */
 
 /* Override font-family for cleaner look */
 :root {
@@ -3638,4 +3668,465 @@ a {
 
 .gh-button:hover {
     transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   25. Shipmas Intro Two-Column Layout
+
+   Homepage intro section with side-by-side layout:
+   - Left column: Welcome message card
+   - Right column: Email subscribe box
+   - Stacks vertically on tablet/mobile (< 992px)
+   ========================================================================== */
+
+.shipmas-intro-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: stretch;
+}
+
+.shipmas-intro-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.shipmas-intro-left .shipmas-intro-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+.shipmas-intro-right {
+    display: flex;
+    align-items: stretch;
+}
+
+.shipmas-subscribe-box {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.shipmas-subscribe-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--color-darker-gray);
+}
+
+.shipmas-subscribe-text {
+    font-size: 1.5rem;
+    color: var(--color-secondary-text);
+    margin-bottom: 20px;
+}
+
+.shipmas-subscribe-box .gh-form {
+    max-width: 100%;
+    width: 100%;
+    height: 50px;
+    font-size: 1.5rem;
+}
+
+.shipmas-subscribe-box .gh-form .gh-button {
+    height: 40px;
+    padding-inline: 20px;
+}
+
+.shipmas-read-link {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ghost-accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.shipmas-read-link:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 991px) {
+    .shipmas-intro-wrapper {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .shipmas-intro-left {
+        order: 1;
+    }
+
+    .shipmas-intro-right {
+        order: 2;
+    }
+
+    .shipmas-subscribe-box {
+        max-width: 100%;
+    }
+}
+
+/* ==========================================================================
+   26. Theme Toggle & Dark/Light Mode
+
+   Dark mode is enabled by default. Users can toggle via header button.
+   Preference is persisted to localStorage.
+
+   - .dark-mode class: Applied to body for dark theme
+   - .theme-toggle: Sun/moon button in header navigation
+   - CSS variables are overridden for dark mode colors
+   ========================================================================== */
+
+/* Theme toggle button in header */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--color-darker-gray);
+    transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background: var(--color-lighter-gray);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Show moon by default (dark mode), hide sun */
+.theme-toggle .sun-icon {
+    display: none;
+}
+
+.theme-toggle .moon-icon {
+    display: block;
+}
+
+/* In light mode: show sun, hide moon */
+.light-mode .theme-toggle .sun-icon {
+    display: block;
+}
+
+.light-mode .theme-toggle .moon-icon {
+    display: none;
+}
+
+/* Footer theme toggle (legacy - remove once migrated) */
+.theme-toggle-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--color-darker-gray);
+    transition: background-color 0.2s ease;
+}
+
+.theme-toggle-footer:hover {
+    background: var(--color-lighter-gray);
+}
+
+.theme-toggle-footer svg {
+    width: 18px;
+    height: 18px;
+}
+
+.theme-toggle-footer .sun-icon {
+    display: none;
+}
+
+.theme-toggle-footer .moon-icon {
+    display: block;
+}
+
+.light-mode .theme-toggle-footer .sun-icon {
+    display: block;
+}
+
+.light-mode .theme-toggle-footer .moon-icon {
+    display: none;
+}
+
+/* Footer actions layout */
+.gh-footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Dark Mode (Default) - Override Ghost's white background */
+body.dark-mode {
+    --background-color: #0d0d0d !important;
+    --color-darker-gray: #ffffff;
+    --color-primary-text: #ffffff;
+    --color-secondary-text: rgba(255, 255, 255, 0.65);
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-lighter-gray: rgba(255, 255, 255, 0.08);
+    --color-light-gray: #333;
+    --color-mid-gray: #666;
+    --color-white: #0d0d0d;
+    background-color: #0d0d0d !important;
+    color: #ffffff;
+}
+
+.dark-mode .gh-viewport {
+    background-color: #0d0d0d;
+}
+
+.dark-mode .gh-navigation {
+    background-color: #0d0d0d !important;
+}
+
+.dark-mode .gh-navigation-actions {
+    background-color: #0d0d0d !important;
+}
+
+.dark-mode .gh-footer {
+    background-color: #0a0a0a !important;
+}
+
+.dark-mode .shipmas-intro {
+    background-color: #0d0d0d;
+}
+
+.dark-mode .shipmas-card {
+    background: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .shipmas-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .shipmas-card-locked {
+    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+}
+
+.dark-mode .shipmas-card-title,
+.dark-mode .shipmas-intro-title,
+.dark-mode .shipmas-intro-title a {
+    color: #ffffff;
+}
+
+.dark-mode .shipmas-subscribe-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .shipmas-intro-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .shipmas-subscribe-title {
+    color: #ffffff;
+}
+
+.dark-mode .shipmas-grid-section {
+    background: linear-gradient(180deg, #0d0d0d 0%, #111111 100%);
+}
+
+.dark-mode .gh-article {
+    background-color: #0d0d0d;
+}
+
+.dark-mode .gh-content {
+    color: #ffffff;
+}
+
+.dark-mode .gh-container-title {
+    color: #ffffff;
+}
+
+/* Dark mode forms */
+.dark-mode .gh-form {
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .gh-form:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .gh-form-input {
+    color: #ffffff;
+}
+
+.dark-mode .gh-form-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Dark mode post cards */
+.dark-mode .gh-card {
+    background: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .gh-card-title {
+    color: #ffffff;
+}
+
+/* Light Mode - for when user toggles to light */
+body:not(.dark-mode) .shipmas-card {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .shipmas-card-title {
+    color: #15171a;
+}
+
+body:not(.dark-mode) .shipmas-subscribe-box {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body:not(.dark-mode) .shipmas-subscribe-title {
+    color: #15171a;
+}
+
+/* Theme toggle icon visibility */
+.dark-mode .theme-toggle .sun-icon {
+    display: block;
+}
+
+.dark-mode .theme-toggle .moon-icon {
+    display: none;
+}
+
+body:not(.dark-mode) .theme-toggle .sun-icon {
+    display: none;
+}
+
+body:not(.dark-mode) .theme-toggle .moon-icon {
+    display: block;
+}
+
+/* ==========================================================================
+   27. Posts Section Header with "See All" Link
+
+   Flexbox header for the regular posts section on homepage:
+   - Title on left, "See All" link on right
+   - Links to /blog/ page (custom-blog.hbs template)
+   ========================================================================== */
+
+.gh-container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.gh-container-header .gh-container-title {
+    grid-column: auto;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.gh-see-all-link {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ghost-accent-color);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.gh-see-all-link:hover {
+    opacity: 0.8;
+}
+
+/* Other posts section spacing */
+.other-posts-section {
+    padding: clamp(40px, 5vw, 80px) 0;
+}
+
+.other-posts-section .gh-container-inner {
+    display: block;
+}
+
+@media (max-width: 767px) {
+    .other-posts-section .gh-inner {
+        padding: 0 16px;
+    }
+}
+
+/* ==========================================================================
+   28. Footer Layout Fixes
+
+   Simplified footer layout:
+   - Changed from 3-column grid to flexbox
+   - Logo on left, "Powered by Ghost + Magic Pages" on right
+   - Hides secondary navigation menu
+   - Stacks vertically on mobile
+   ========================================================================== */
+
+/* Override default 3-column grid for simpler layout */
+.gh-footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* Hide secondary nav menu in footer if not needed */
+.gh-footer-menu {
+    display: none;
+}
+
+/* Right-align the footer actions */
+.gh-footer-actions {
+    margin-left: auto;
+}
+
+.gh-footer-copyright {
+    font-size: 1.4rem;
+    color: var(--color-secondary-text);
+}
+
+.gh-footer-copyright a {
+    color: var(--color-secondary-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.gh-footer-copyright a:hover {
+    color: var(--color-primary-text);
+}
+
+@media (max-width: 767px) {
+    .gh-footer-bar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .gh-footer-actions {
+        margin-left: 0;
+    }
 }

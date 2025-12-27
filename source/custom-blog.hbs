@@ -1,0 +1,43 @@
+{{!< default}}
+{{!--
+================================================================================
+CUSTOM-BLOG.HBS - All Posts Page Template
+================================================================================
+
+Author: Human Written (https://humanwritten.ai)
+License: MIT
+Repository: https://github.com/12-days-of-shipmas-2025/shipmas-ghost-theme
+
+Displays all posts in a single feed (no pagination limit).
+Used as a custom page template selectable in Ghost Admin.
+
+Setup:
+1. Create a new Page in Ghost Admin
+2. Set the slug to "blog" (URL: /blog/)
+3. In Page Settings, select Template: "Blog - All Posts"
+4. Publish the page
+
+================================================================================
+--}}
+
+{{> "components/header" headerStyle="Small"}}
+
+<main class="gh-main gh-outer">
+    <div class="gh-inner">
+
+        <div class="gh-container-header">
+            <h1 class="gh-container-title">All Posts</h1>
+        </div>
+
+        <div class="gh-feed">
+            {{#get "posts" include="authors" limit="all"}}
+                {{#foreach posts}}
+                    {{> "post-card" lazyLoad=true}}
+                {{/foreach}}
+            {{else}}
+                <p class="no-posts">No posts found.</p>
+            {{/get}}
+        </div>
+
+    </div>
+</main>

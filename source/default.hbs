@@ -66,6 +66,29 @@
 {{!-- Scripts - handle responsive videos, infinite scroll, and navigation dropdowns --}}
 <script src="{{asset "built/source.js"}}"></script>
 
+{{!-- Theme Toggle Script --}}
+<script>
+(function() {
+    // Check for saved preference or system preference
+    const savedTheme = localStorage.getItem('shipmas-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Default to dark mode unless explicitly set to light
+    if (savedTheme === 'light') {
+        document.body.classList.remove('dark-mode');
+    } else {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Theme toggle function
+    window.toggleTheme = function() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('shipmas-theme', isDark ? 'dark' : 'light');
+    };
+})();
+</script>
+
 {{!-- Ghost outputs required functional scripts with this tag, it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
 

@@ -1,12 +1,42 @@
 {{!< default}}
-{{!-- 12 Days of Shipmas Homepage --}}
+{{!--
+================================================================================
+HOME.HBS - 12 Days of Shipmas Homepage
+================================================================================
+
+Author: Human Written (https://humanwritten.ai)
+License: MIT
+Repository: https://github.com/12-days-of-shipmas-2025/shipmas-ghost-theme
+
+This is the custom homepage template featuring:
+- 12 Days countdown grid (auto-hides after SHIPMAS_END_DATE)
+- Welcome/intro section with subscribe box
+- Regular posts feed (excluding shipmas content)
+
+Required Ghost Admin Setup:
+- Tag "12-days-of-shipmas" for day posts
+- Tag "shipmas-intro" for welcome post
+- See README.md for full setup instructions
+
+================================================================================
+--}}
+
+{{!--
+    SHIPMAS FEATURE TOGGLE
+    The 12 Days of Shipmas sections will automatically hide after the end date.
+    To change the end date, modify SHIPMAS_END_DATE in the script at the bottom of this file.
+    Default: January 31, 2025
+--}}
 
 {{> "components/header" headerStyle="Off"}}
 
-{{!-- Intro Section - Two column: intro left, subscribe right --}}
+{{!-- 12 Days of Shipmas Feature Section (date-controlled) --}}
+<div id="shipmas-feature">
+
+{{!-- Intro Section - Welcome text first, subscribe below --}}
 <section class="shipmas-intro gh-outer">
     <div class="gh-inner shipmas-intro-wrapper">
-        {{!-- Left column: Intro content --}}
+        {{!-- Welcome content --}}
         <div class="shipmas-intro-left">
             {{#get "posts" filter="tag:shipmas-intro" limit="1" include="authors"}}
                 {{#foreach posts}}
@@ -25,7 +55,7 @@
             {{/get}}
         </div>
 
-        {{!-- Right column: Subscribe --}}
+        {{!-- Subscribe box --}}
         <div class="shipmas-intro-right">
             <div class="shipmas-subscribe-box">
                 <h3 class="shipmas-subscribe-title">Stay Updated</h3>
@@ -39,7 +69,6 @@
 {{!-- 12 Days of Shipmas Grid --}}
 <section class="shipmas-grid-section gh-outer">
     <div class="gh-inner">
-        <p class="shipmas-section-subtitle">December 26 - January 5 | One new product every day</p>
 
         <div class="shipmas-grid">
             {{!-- Get all 12 days posts --}}
@@ -69,13 +98,18 @@
     </div>
 </section>
 
+</div>{{!-- End #shipmas-feature --}}
+
 {{!-- Regular Posts Feed (excluding shipmas posts) --}}
 <section class="gh-container is-list gh-outer other-posts-section">
     <div class="gh-container-inner gh-inner">
-        <h2 class="gh-container-title">Posts</h2>
+        <div class="gh-container-header">
+            <h2 class="gh-container-title">Posts</h2>
+            <a href="{{@site.url}}/blog/" class="gh-see-all-link">See All &rarr;</a>
+        </div>
         <main class="gh-main">
             <div class="gh-feed">
-                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro" include="authors" limit="12"}}
+                {{#get "posts" filter="tag:-12-days-of-shipmas+tag:-shipmas-intro" include="authors" limit="6"}}
                     {{#foreach posts}}
                         {{> "post-card" lazyLoad=true}}
                     {{/foreach}}
@@ -85,9 +119,28 @@
     </div>
 </section>
 
-{{!-- JavaScript to fill in locked days --}}
+{{!-- JavaScript for 12 Days of Shipmas --}}
 <script>
 (function() {
+    // ============================================
+    // SHIPMAS FEATURE TOGGLE - DATE CONFIGURATION
+    // ============================================
+    // Change this date to control when the 12 Days section disappears
+    // Format: Year, Month (0-indexed, so January = 0), Day
+    const SHIPMAS_END_DATE = new Date(2025, 0, 31, 23, 59, 59); // January 31, 2025 at 11:59 PM
+
+    const now = new Date();
+    const shipmasFeature = document.getElementById('shipmas-feature');
+
+    // Hide the 12 Days section if we're past the end date
+    if (now > SHIPMAS_END_DATE && shipmasFeature) {
+        shipmasFeature.style.display = 'none';
+        return; // No need to run the rest of the script
+    }
+
+    // ============================================
+    // LOCKED DAYS GRID LOGIC
+    // ============================================
     const grid = document.querySelector('.shipmas-grid');
     if (!grid) return;
 
@@ -140,22 +193,3 @@
 })();
 </script>
 
-{{!-- Theme Toggle Script (button in footer) --}}
-<script>
-(function() {
-    // Check for saved preference or system preference
-    const savedTheme = localStorage.getItem('shipmas-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
-        document.body.classList.add('light-mode');
-    }
-
-    // Theme toggle will be handled by footer button
-    window.toggleTheme = function() {
-        document.body.classList.toggle('light-mode');
-        const isLight = document.body.classList.contains('light-mode');
-        localStorage.setItem('shipmas-theme', isLight ? 'light' : 'dark');
-    };
-})();
-</script>

@@ -4130,3 +4130,353 @@ body:not(.dark-mode) .theme-toggle .moon-icon {
         margin-left: 0;
     }
 }
+
+/* ==========================================================================
+   29. COSMIC LAUNCH - Bold Shipmas Design System
+
+   A distinctive "Cosmic Launch" aesthetic for the 12 Days of Shipmas:
+   - Deep space gradients with warm accent glows
+   - Syne display font for headings
+   - Animated card reveals with staggered timing
+   - Glowing borders and hover effects
+   - Subtle noise texture for depth
+   - Dramatic day number badges
+   ========================================================================== */
+
+/* --- Cosmic Color Palette --- */
+:root {
+    --cosmic-void: #0a0a0f;
+    --cosmic-deep: #12121a;
+    --cosmic-surface: #1a1a24;
+    --cosmic-glow-pink: #ff3366;
+    --cosmic-glow-orange: #ff6b35;
+    --cosmic-glow-purple: #a855f7;
+    --cosmic-glow-blue: #3b82f6;
+    --cosmic-gradient: linear-gradient(135deg, var(--cosmic-glow-pink) 0%, var(--cosmic-glow-orange) 50%, var(--cosmic-glow-purple) 100%);
+    --cosmic-gradient-subtle: linear-gradient(135deg, rgba(255, 51, 102, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+    --font-display: "Syne", var(--font-sans);
+}
+
+/* --- Noise Texture Overlay --- */
+.dark-mode .shipmas-grid-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --- Cosmic Grid Section Background --- */
+.dark-mode .shipmas-grid-section {
+    position: relative;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 50%, rgba(255, 51, 102, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+        linear-gradient(180deg, var(--cosmic-void) 0%, var(--cosmic-deep) 100%);
+    overflow: hidden;
+}
+
+.dark-mode .shipmas-grid-section .gh-inner {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Cosmic Intro Section --- */
+.dark-mode .shipmas-intro {
+    background: linear-gradient(180deg, var(--cosmic-deep) 0%, var(--cosmic-void) 100%);
+}
+
+.dark-mode .shipmas-intro-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .shipmas-intro-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--cosmic-gradient);
+    opacity: 0.5;
+}
+
+/* --- Cosmic Title Typography --- */
+.dark-mode .shipmas-intro-title,
+.dark-mode .shipmas-section-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: var(--cosmic-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dark-mode .shipmas-intro-title a {
+    background: var(--cosmic-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* --- Subscribe Box Glow --- */
+.dark-mode .shipmas-subscribe-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .shipmas-subscribe-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--cosmic-gradient);
+    opacity: 0.5;
+}
+
+.dark-mode .shipmas-subscribe-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+/* --- Cosmic Card Design --- */
+.dark-mode .shipmas-card {
+    background: var(--cosmic-surface);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animated gradient border on hover */
+.dark-mode .shipmas-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1px;
+    background: var(--cosmic-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.dark-mode .shipmas-card:hover::before {
+    opacity: 1;
+}
+
+/* Glow effect on hover */
+.dark-mode .shipmas-card::after {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 51, 102, 0.15) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.dark-mode .shipmas-card:hover::after {
+    opacity: 1;
+}
+
+.dark-mode .shipmas-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(255, 51, 102, 0.1);
+}
+
+/* --- Dramatic Day Number Badges --- */
+.dark-mode .shipmas-day-number {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    padding: 6px 14px;
+    background: var(--cosmic-gradient);
+    color: #fff;
+    border-radius: 20px;
+    box-shadow:
+        0 4px 15px rgba(255, 51, 102, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Card Title with subtle glow --- */
+.dark-mode .shipmas-card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+/* --- Staggered Reveal Animation --- */
+@keyframes cosmicReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.dark-mode .shipmas-card {
+    animation: cosmicReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.dark-mode .shipmas-card[data-day="1"] { animation-delay: 0.05s; }
+.dark-mode .shipmas-card[data-day="2"] { animation-delay: 0.1s; }
+.dark-mode .shipmas-card[data-day="3"] { animation-delay: 0.15s; }
+.dark-mode .shipmas-card[data-day="4"] { animation-delay: 0.2s; }
+.dark-mode .shipmas-card[data-day="5"] { animation-delay: 0.25s; }
+.dark-mode .shipmas-card[data-day="6"] { animation-delay: 0.3s; }
+.dark-mode .shipmas-card[data-day="7"] { animation-delay: 0.35s; }
+.dark-mode .shipmas-card[data-day="8"] { animation-delay: 0.4s; }
+.dark-mode .shipmas-card[data-day="9"] { animation-delay: 0.45s; }
+.dark-mode .shipmas-card[data-day="10"] { animation-delay: 0.5s; }
+.dark-mode .shipmas-card[data-day="11"] { animation-delay: 0.55s; }
+.dark-mode .shipmas-card[data-day="12"] { animation-delay: 0.6s; }
+
+/* --- Revealed Card Special Styling --- */
+.dark-mode .shipmas-card.revealed {
+    border-color: transparent;
+}
+
+.dark-mode .shipmas-card.revealed::before {
+    opacity: 0.6;
+}
+
+/* --- Floating Particles Animation --- */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+}
+
+.dark-mode .shipmas-grid-section::after {
+    content: "✦";
+    position: absolute;
+    top: 20%;
+    right: 15%;
+    font-size: 1.2rem;
+    color: var(--cosmic-glow-pink);
+    animation: float 4s ease-in-out infinite;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+/* --- Card Image Enhancement --- */
+.dark-mode .shipmas-card-image {
+    position: relative;
+}
+
+.dark-mode .shipmas-card-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--cosmic-surface) 100%);
+}
+
+/* --- Light Mode Enhancements --- */
+body:not(.dark-mode) .shipmas-intro-title,
+body:not(.dark-mode) .shipmas-section-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+}
+
+body:not(.dark-mode) .shipmas-day-number {
+    font-family: var(--font-display);
+    font-weight: 800;
+    background: linear-gradient(135deg, #ff3366 0%, #ff6b35 100%);
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+}
+
+body:not(.dark-mode) .shipmas-card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+body:not(.dark-mode) .shipmas-card {
+    animation: cosmicReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    border-radius: 16px;
+}
+
+body:not(.dark-mode) .shipmas-card[data-day="1"] { animation-delay: 0.05s; }
+body:not(.dark-mode) .shipmas-card[data-day="2"] { animation-delay: 0.1s; }
+body:not(.dark-mode) .shipmas-card[data-day="3"] { animation-delay: 0.15s; }
+body:not(.dark-mode) .shipmas-card[data-day="4"] { animation-delay: 0.2s; }
+body:not(.dark-mode) .shipmas-card[data-day="5"] { animation-delay: 0.25s; }
+body:not(.dark-mode) .shipmas-card[data-day="6"] { animation-delay: 0.3s; }
+body:not(.dark-mode) .shipmas-card[data-day="7"] { animation-delay: 0.35s; }
+body:not(.dark-mode) .shipmas-card[data-day="8"] { animation-delay: 0.4s; }
+body:not(.dark-mode) .shipmas-card[data-day="9"] { animation-delay: 0.45s; }
+body:not(.dark-mode) .shipmas-card[data-day="10"] { animation-delay: 0.5s; }
+body:not(.dark-mode) .shipmas-card[data-day="11"] { animation-delay: 0.55s; }
+body:not(.dark-mode) .shipmas-card[data-day="12"] { animation-delay: 0.6s; }
+
+body:not(.dark-mode) .shipmas-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Posts Section Title --- */
+.dark-mode .gh-container-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+/* --- Accent Button Enhancement --- */
+.dark-mode .gh-button {
+    background: var(--cosmic-gradient);
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .gh-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 51, 102, 0.4);
+}
+
+/* --- Navigation Enhancement --- */
+.dark-mode .gh-navigation {
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Footer Enhancement --- */
+.dark-mode .gh-footer {
+    background: var(--cosmic-void);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 767px) {
+    .dark-mode .shipmas-day-number {
+        font-size: 1rem;
+        padding: 5px 12px;
+    }
+
+    .dark-mode .shipmas-card:hover {
+        transform: translateY(-4px);
+    }
+}

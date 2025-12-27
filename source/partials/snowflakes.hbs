@@ -7,20 +7,23 @@
     if (!container) return;
 
     const snowflakeChars = ['❄', '❅', '❆', '✦', '✧', '*', '⁕', '⁑'];
-    const snowflakeCount = 35;
+    const snowflakeCount = 40;
 
     function createSnowflake() {
         const snowflake = document.createElement('span');
         snowflake.className = 'snowflake style-' + (Math.floor(Math.random() * 4) + 1);
         snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
         snowflake.style.left = Math.random() * 100 + '%';
-        snowflake.style.animationDuration = (Math.random() * 15 + 10) + 's';
-        snowflake.style.animationDelay = (Math.random() * 10) + 's';
-        snowflake.style.opacity = Math.random() * 0.4 + 0.2;
+
+        const duration = Math.random() * 15 + 12;
+        snowflake.style.animationDuration = duration + 's';
+        // Negative delay starts animation mid-way, scattering snowflakes vertically
+        snowflake.style.animationDelay = -(Math.random() * duration) + 's';
+        snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+
         container.appendChild(snowflake);
     }
 
-    // Create initial snowflakes
     for (let i = 0; i < snowflakeCount; i++) {
         createSnowflake();
     }

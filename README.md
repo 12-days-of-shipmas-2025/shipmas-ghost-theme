@@ -5,7 +5,7 @@ A Ghost theme for running your own **12 Days of Shipmas** - an advent-style chal
 ![Ghost](https://img.shields.io/badge/Ghost-%3E%3D5.0.0-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-**[Live Demo](https://humanwritten.ai)** | **[Download Theme](https://github.com/12-days-of-shipmas/shipmas-ghost-theme/releases/download/v1.0.0/shipmas-theme.zip)** | **[Download Starter Content](https://github.com/12-days-of-shipmas/shipmas-ghost-theme/releases/download/v1.0.0/ghost-starter-content.json)**
+**[Live Demo](https://humanwritten.ai)** | **[Download Theme](https://github.com/12-days-of-shipmas-2025/day-1-shipmas-ghost-theme/releases/download/v1.0.0/shipmas-theme.zip)** | **[Download Starter Content](https://github.com/12-days-of-shipmas-2025/day-1-shipmas-ghost-theme/releases/download/v1.0.0/ghost-starter-content.json)**
 
 ## What is 12 Days of Shipmas?
 
@@ -25,13 +25,13 @@ Sign up for [Magic Pages](https://www.magicpages.co/?aff=1lbhnAylkQfN) - they of
 
 ### 2. Import the Theme
 
-1. Download [`shipmas-theme.zip`](https://github.com/12-days-of-shipmas/shipmas-ghost-theme/releases/download/v1.0.0/shipmas-theme.zip)
+1. Download [`shipmas-theme.zip`](https://github.com/12-days-of-shipmas-2025/day-1-shipmas-ghost-theme/releases/download/v1.0.0/shipmas-theme.zip)
 2. Go to Ghost Admin → **Settings → Design → Change theme → Upload**
 3. Upload and activate the theme
 
 ### 3. Import Starter Content
 
-1. Download [`ghost-starter-content.json`](https://github.com/12-days-of-shipmas/shipmas-ghost-theme/releases/download/v1.0.0/ghost-starter-content.json)
+1. Download [`ghost-starter-content.json`](https://github.com/12-days-of-shipmas-2025/day-1-shipmas-ghost-theme/releases/download/v1.0.0/ghost-starter-content.json)
 2. Go to Ghost Admin → **Settings → Import/Export → Import**
 3. Upload the JSON file
 
@@ -123,7 +123,7 @@ To reuse next year:
 
 ```bash
 # Clone and install
-git clone https://github.com/12-days-of-shipmas/shipmas-ghost-theme.git
+git clone https://github.com/12-days-of-shipmas-2025/day-1-shipmas-ghost-theme.git
 cd shipmas-ghost-theme/source
 npm install
 
